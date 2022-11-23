@@ -3,7 +3,8 @@ Project created for learning purposes from the Udemy course. I am implementing w
 
 # Goals
 - Learn ASP.NET workflow, configuration and components
-- Get used to the proper architecture of the project
+- Use Clean architecture
+- Use CQRS and Mediator pattern
 - Play around and learn SQL in-depth
 
 # Tech Stack
