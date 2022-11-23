@@ -11,3 +11,6 @@ Project created for learning purposes from the Udemy course. I am implementing w
 - SQL
 - Entity Framework ORM
 - React.js
+
+# Course link
+The course that is guiding me through the process can be found here: https://www.udemy.com/course/complete-guide-to-building-an-app-with-net-core-and-react/l
