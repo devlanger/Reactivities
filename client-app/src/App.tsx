@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
 
 function App() {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/games').then(response => {
+      console.log(response);
+      setGames(response.data);
+    })
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        
-        <p style={{color: "red"}}>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div>
+      <header>
+        <ul>
+          {games.map((game: any) => (
+            <li key={game.id}>
+                {game.title}
+            </li>
+          ))}
+        </ul>
       </header>
     </div>
   );
