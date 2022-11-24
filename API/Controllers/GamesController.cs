@@ -1,33 +1,31 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.Games;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace API.Controllers
 {
     public class GamesController : BaseApiController
     {
-        private readonly DataContext context;
+        private readonly IMediator mediator;
 
-        public GamesController(DataContext context)
+        public GamesController(IMediator mediator)
         {
-            this.context = context;
+            this.mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Game>>> GetGames()
         {
-            return await context.Games.ToListAsync();
+            return await mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")] 
         public async Task<ActionResult<Game>> GetGame(Guid id)
         {
-            return await context.Games.FirstOrDefaultAsync(g => g.Id == id);
+            return Ok();
         }
     }
 }
