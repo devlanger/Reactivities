@@ -1,8 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { ducks } from './Demo';
-import DuckItem from './DuckItem';
 
 function App() {
   return (
@@ -10,10 +8,6 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         
-        {ducks.map(duck => (
-          <DuckItem duck={duck} key={duck.name} />
-        ))}
-
         <p style={{color: "red"}}>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
