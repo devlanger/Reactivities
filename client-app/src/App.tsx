@@ -11,7 +11,7 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         
         {ducks.map(duck => (
-          <DuckItem duck={duck} />
+          <DuckItem duck={duck} key={duck.name} />
         ))}
 
         <p style={{color: "red"}}>
