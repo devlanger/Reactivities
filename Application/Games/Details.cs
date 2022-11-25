@@ -26,7 +26,8 @@ namespace Application.Games
 
             public async Task<Game> Handle(Query request, CancellationToken cancellationToken)
             {
-                await context.Games.FindAsync(request.Id);
+                var game = await context.Games.FindAsync(request.Id);
+                return game;
             }
         }
     }
