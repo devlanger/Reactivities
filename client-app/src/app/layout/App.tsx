@@ -49,6 +49,11 @@ function App() {
     setSelectedGame(game);
   }
 
+  function handleDeleteGame(id: string)
+  {
+    setGames([...games.filter(g => g.id !== id)]);
+  }
+
   return (
     <>
           <Navbar openForm={handleFormOpen}/>
@@ -62,6 +67,7 @@ function App() {
               openForm={handleFormOpen}
               closeForm={handleFormClose}
               createOrEdit={handleCreateOrEditGame} 
+              deleteGame={handleDeleteGame}
               />
           </Container>
     </>

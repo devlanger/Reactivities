@@ -5,9 +5,10 @@ import { IGame } from '../../../app/models/game';
 interface Props {
     games: IGame[];
     selectGame: (id: string) => void;
+    deleteGame: (id: string) => void;
 }
 
-export default function GamesList({games, selectGame}: Props){
+export default function GamesList({games, selectGame, deleteGame}: Props){
     return (
         <Segment>
             <Item.Group divided>
@@ -22,6 +23,7 @@ export default function GamesList({games, selectGame}: Props){
                             </Item.Description>
                             <Item.Extra>
                                 <Button onClick={() => selectGame(game.id)} floated='right' content='View' color='blue'></Button>
+                                <Button onClick={() => deleteGame(game.id)} floated='right' content='Delete' color='red'></Button>
                                 <Label basic content={game.category} />
                             </Item.Extra>
                         </Item.Content>
