@@ -3,10 +3,11 @@ import { Button, Card, Icon, Image } from 'semantic-ui-react';
 import { IGame } from '../../../app/models/game';
 
 interface Props{
-    game: IGame
+    game: IGame;
+    cancelSelectGame: () => void;
 }
 
-export default function GameDetails({game}: Props)
+export default function GameDetails({game, cancelSelectGame}: Props)
 {
     return(
         <Card fluid>
@@ -22,7 +23,7 @@ export default function GameDetails({game}: Props)
             <Card.Content extra>
                 <Button.Group widths={2}>
                     <Button basic color="blue" content="Edit" />
-                    <Button basic color="grey" content="Cancel" />
+                    <Button onClick={() => cancelSelectGame()} basic color="grey" content="Cancel" />
                 </Button.Group>
             </Card.Content>
         </Card>

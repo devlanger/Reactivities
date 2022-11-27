@@ -7,6 +7,7 @@ import GamesDashboard from '../../features/games/dashboard/GamesDashboard';
 
 function App() {
   const [games, setGames] = useState<IGame[]>([]);
+  const [selectedGame, setSelectedGame] = useState<IGame | undefined>(undefined);
 
   useEffect(() => {
     axios.get<IGame[]>('http://localhost:5000/api/games').then(response => {
@@ -15,11 +16,26 @@ function App() {
     })
   }, []);
 
+  function handleSelectGame(id: string)
+  {
+    setSelectedGame(games.find(g => g.id == id));
+  }
+
+  function handleCancelSelectGame()
+  {
+    setSelectedGame(undefined);
+  }
+
   return (
     <>
           <Navbar />
           <Container style={{marginTop: '7em'}}>
-            <GamesDashboard games={games} />
+            <GamesDashboard 
+              games={games} 
+              selectedGame={selectedGame}
+              selectGame={handleSelectGame}
+              cancelSelectGame={handleCancelSelectGame} 
+              />
           </Container>
     </>
   );
