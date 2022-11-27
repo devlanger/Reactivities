@@ -13,7 +13,7 @@ export default function GameDetails({game, cancelSelectGame, openForm}: Props)
     return(
         <Card fluid>
             <Card.Content>
-            <Card.Header>Matthew</Card.Header>
+            <Card.Header>{game.title}</Card.Header>
             <Card.Meta>
                 <span>{game.releaseDate}</span>
             </Card.Meta>

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Header, List, Container } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 import { IGame } from '../models/game'
 import Navbar from './Navbar';
 import GamesDashboard from '../../features/games/dashboard/GamesDashboard';
+import { v4 as uuid } from 'uuid';
 
 function App() {
   const [games, setGames] = useState<IGame[]>([]);
@@ -38,6 +39,16 @@ function App() {
     setEditMode(false);
   }
 
+  function handleCreateOrEditGame(game: IGame)
+  {
+    game.id 
+      ? setGames([...games.filter(g => g.id !== game.id), game])
+      : setGames([...games, {...game, id: uuid()}]);
+
+    setEditMode(false);
+    setSelectedGame(game);
+  }
+
   return (
     <>
           <Navbar openForm={handleFormOpen}/>
@@ -49,7 +60,8 @@ function App() {
               cancelSelectGame={handleCancelSelectGame}
               editMode={editMode}
               openForm={handleFormOpen}
-              closeForm={handleFormClose} 
+              closeForm={handleFormClose}
+              createOrEdit={handleCreateOrEditGame} 
               />
           </Container>
     </>

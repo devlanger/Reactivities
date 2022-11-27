@@ -12,10 +12,11 @@ interface Props{
     cancelSelectGame: () => void;
     openForm: (id: string) => void;
     closeForm: () => void;
+    createOrEdit: (game: IGame) => void;
     editMode: boolean;
 }
 
-export default function GamesDashboard({games, selectedGame, selectGame, cancelSelectGame, editMode, openForm, closeForm }: Props) {
+export default function GamesDashboard({games, selectedGame, selectGame, cancelSelectGame, editMode, openForm, closeForm, createOrEdit }: Props) {
     return (
         <Grid>
             <Grid.Column width={10}>
@@ -33,6 +34,7 @@ export default function GamesDashboard({games, selectedGame, selectGame, cancelS
                 <GameForm 
                     closeForm={closeForm} 
                     game={selectedGame} 
+                    createOrEdit={createOrEdit}
                     />}
 
             </Grid.Column>
