@@ -8,6 +8,7 @@ import GamesDashboard from '../../features/games/dashboard/GamesDashboard';
 function App() {
   const [games, setGames] = useState<IGame[]>([]);
   const [selectedGame, setSelectedGame] = useState<IGame | undefined>(undefined);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
     axios.get<IGame[]>('http://localhost:5000/api/games').then(response => {
@@ -26,15 +27,29 @@ function App() {
     setSelectedGame(undefined);
   }
 
+  function handleFormOpen(id?: string)
+  {
+    id ? handleSelectGame(id) : handleCancelSelectGame();
+    setEditMode(true);
+  }
+
+  function handleFormClose()
+  {
+    setEditMode(false);
+  }
+
   return (
     <>
-          <Navbar />
+          <Navbar openForm={handleFormOpen}/>
           <Container style={{marginTop: '7em'}}>
             <GamesDashboard 
               games={games} 
               selectedGame={selectedGame}
               selectGame={handleSelectGame}
-              cancelSelectGame={handleCancelSelectGame} 
+              cancelSelectGame={handleCancelSelectGame}
+              editMode={editMode}
+              openForm={handleFormOpen}
+              closeForm={handleFormClose} 
               />
           </Container>
     </>

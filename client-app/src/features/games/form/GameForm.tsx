@@ -1,7 +1,13 @@
 import React from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
+import { IGame } from "../../../app/models/game";
 
-export default function GameForm(){
+interface Props{
+    game: IGame | undefined;
+    closeForm: () => void;
+}
+
+export default function GameForm({game, closeForm}: Props){
     return (
         <Segment clearing>
             <Form>
@@ -11,7 +17,7 @@ export default function GameForm(){
                 <Form.Input placeholder="Platforms" />
                 <Form.Input placeholder="Category" />
                 <Button floated='right' positive type='submit' content='Submit' />
-                <Button floated='right' type='button' content='Cancel' />
+                <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>
     )
