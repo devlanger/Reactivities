@@ -5,16 +5,25 @@ import { IGame } from '../models/game'
 import Navbar from './Navbar';
 import GamesDashboard from '../../features/games/dashboard/GamesDashboard';
 import { v4 as uuid } from 'uuid';
+import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
   const [games, setGames] = useState<IGame[]>([]);
   const [selectedGame, setSelectedGame] = useState<IGame | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    axios.get<IGame[]>('http://localhost:5000/api/games').then(response => {
-      console.log(response);
-      setGames(response.data);
+    agent.Games.list().then(response => {
+      let games: IGame[] = [];
+      response.forEach(game => {
+        game.releaseDate = game.releaseDate.split('T')[0];
+        games.push(game);
+      })
+      setGames(response);
+      setLoading(false);
     })
   }, []);
 
@@ -41,17 +50,36 @@ function App() {
 
   function handleCreateOrEditGame(game: IGame)
   {
-    game.id 
-      ? setGames([...games.filter(g => g.id !== game.id), game])
-      : setGames([...games, {...game, id: uuid()}]);
-
-    setEditMode(false);
-    setSelectedGame(game);
+    setSubmitting(true);
+    if(game.id)
+    {
+      agent.Games.update(game).then(() => {
+        setGames([...games.filter(g => g.id !== game.id), game]);
+        setSelectedGame(game);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }
+    else
+    {
+      game.id = uuid();
+      agent.Games.create(game).then(() =>{
+        setGames([...games, game]);
+      });
+      setSelectedGame(game);
+      setEditMode(false);
+      setSubmitting(false);
+    }
   }
 
   function handleDeleteGame(id: string)
   {
     setGames([...games.filter(g => g.id !== id)]);
+  }
+
+  if(loading)
+  {
+    return <LoadingComponent content='Loading app' />
   }
 
   return (
@@ -68,6 +96,7 @@ function App() {
               closeForm={handleFormClose}
               createOrEdit={handleCreateOrEditGame} 
               deleteGame={handleDeleteGame}
+              submitting={submitting}
               />
           </Container>
     </>
