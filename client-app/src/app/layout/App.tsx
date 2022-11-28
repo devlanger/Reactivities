@@ -74,7 +74,11 @@ function App() {
 
   function handleDeleteGame(id: string)
   {
-    setGames([...games.filter(g => g.id !== id)]);
+    setSubmitting(true);
+    agent.Games.delete(id).then(()=>{
+      setGames([...games.filter(g => g.id !== id)]);
+      setSubmitting(false);
+    })
   }
 
   if(loading)

@@ -25,7 +25,9 @@ export default function GamesDashboard({games, selectedGame, selectGame, cancelS
                 <GamesList 
                     games={games} 
                     selectGame={selectGame}
-                    deleteGame={deleteGame} />
+                    deleteGame={deleteGame}
+                    submitting={submitting}
+                    />
             </Grid.Column>  
             <Grid.Column width={6}>
                 {selectedGame && !editMode &&
