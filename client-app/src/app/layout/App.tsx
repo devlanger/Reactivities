@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { IGame } from '../models/game'
 import Navbar from './Navbar';
@@ -7,25 +6,20 @@ import GamesDashboard from '../../features/games/dashboard/GamesDashboard';
 import { v4 as uuid } from 'uuid';
 import agent from '../api/agent';
 import LoadingComponent from './LoadingComponent';
+import { useStore } from '../stores/store';
+import { observer } from 'mobx-react-lite';
 
 function App() {
+  const {gameStore} = useStore();
+  
   const [games, setGames] = useState<IGame[]>([]);
   const [selectedGame, setSelectedGame] = useState<IGame | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    agent.Games.list().then(response => {
-      let games: IGame[] = [];
-      response.forEach(game => {
-        game.releaseDate = game.releaseDate.split('T')[0];
-        games.push(game);
-      })
-      setGames(response);
-      setLoading(false);
-    })
-  }, []);
+    gameStore.loadGames();
+  }, [gameStore]);
 
   function handleSelectGame(id: string)
   {
@@ -81,7 +75,7 @@ function App() {
     })
   }
 
-  if(loading)
+  if(gameStore.loadingInitial)
   {
     return <LoadingComponent content='Loading app' />
   }
@@ -91,7 +85,7 @@ function App() {
           <Navbar openForm={handleFormOpen}/>
           <Container style={{marginTop: '7em'}}>
             <GamesDashboard 
-              games={games} 
+              games={gameStore.games} 
               selectedGame={selectedGame}
               selectGame={handleSelectGame}
               cancelSelectGame={handleCancelSelectGame}
@@ -107,4 +101,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
