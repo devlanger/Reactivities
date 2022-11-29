@@ -1,15 +1,19 @@
 import React from 'react';
 import { Button, Card, Icon, Image } from 'semantic-ui-react';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { IGame } from '../../../app/models/game';
+import { useStore } from '../../../app/stores/store';
 
-interface Props{
-    game: IGame;
-    cancelSelectGame: () => void;
-    openForm: (id: string) => void;
-}
-
-export default function GameDetails({game, cancelSelectGame, openForm}: Props)
+export default function GameDetails()
 {
+    const {gameStore} = useStore();
+    const {selectedGame: game} = gameStore;
+
+    if(!game)
+    {
+        return <LoadingComponent />;
+    }
+
     return(
         <Card fluid>
             <Card.Content>
@@ -23,8 +27,8 @@ export default function GameDetails({game, cancelSelectGame, openForm}: Props)
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths={2}>
-                    <Button onClick={() => openForm(game.id)} basic color="blue" content="Edit" />
-                    <Button onClick={() => cancelSelectGame()} basic color="grey" content="Cancel" />
+                    <Button onClick={() => gameStore.openForm(game.id)} basic color="blue" content="Edit" />
+                    <Button onClick={() => gameStore.cancelSelectedGame()} basic color="grey" content="Cancel" />
                 </Button.Group>
             </Card.Content>
         </Card>

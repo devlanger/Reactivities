@@ -1,15 +1,12 @@
+import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
-import { IGame } from '../../../app/models/game';
+import { useStore } from '../../../app/stores/store';
 
-interface Props {
-    games: IGame[];
-    selectGame: (id: string) => void;
-    deleteGame: (id: string) => void;
-    submitting: boolean;
-}
-
-export default function GamesList({games, selectGame, deleteGame, submitting}: Props){
+export default observer(function GamesList(){
+    
+    const {gameStore} = useStore();
+    const {deleteGame, games, loading} = gameStore;
 
     const [target, setTarget] = useState('');
 
@@ -31,10 +28,10 @@ export default function GamesList({games, selectGame, deleteGame, submitting}: P
                                 {game.platforms}
                             </Item.Description>
                             <Item.Extra>
-                                <Button onClick={() => selectGame(game.id)} floated='right' content='View' color='blue'></Button>
+                                <Button onClick={() => gameStore.selectGame(game.id)} floated='right' content='View' color='blue'></Button>
                                 <Button 
                                     name={game.id} 
-                                    loading={submitting && target === game.id} 
+                                    loading={loading && target === game.id} 
                                     onClick={(e) => handleGameDelete(e, game.id)} 
                                     floated='right' 
                                     content='Delete' 
@@ -47,4 +44,4 @@ export default function GamesList({games, selectGame, deleteGame, submitting}: P
             </Item.Group> 
         </Segment>
     )
-}
+})

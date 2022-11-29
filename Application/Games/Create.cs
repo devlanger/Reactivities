@@ -26,11 +26,17 @@ namespace Application.Games
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                //This is called in-memory
-                _context.Games.Add(request.Game);
+                try{
+                    //This is called in-memory
+                    _context.Games.Add(request.Game);
 
-                //Call save in the database
-                await _context.SaveChangesAsync();
+                    //Call save in the database
+                    await _context.SaveChangesAsync();
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
 
                 return Unit.Value;
             }
