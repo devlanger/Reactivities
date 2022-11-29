@@ -5,23 +5,27 @@ import { IGame } from "../models/game";
 
 export default class GameStore
 {
-    games: IGame[] = [];
+    gameRegistry = new Map<string, IGame>();
     selectedGame: IGame | undefined = undefined;
     editMode = false;
     loading = false;
-    loadingInitial = false;
+    loadingInitial = true;
 
     constructor(){
         makeAutoObservable(this)
     }
 
+    get gamesByDate() {
+        return Array.from(this.gameRegistry.values()).sort((a, b) => 
+            Date.parse(a.releaseDate) - Date.parse(b.releaseDate));
+    }
+
     loadGames = async () => {
-        this.setLoadingInitial(true);
         try{
             const games = await agent.Games.list();
             games.forEach(game => {
                 game.releaseDate = game.releaseDate.split('T')[0];
-                this.games.push(game);
+                this.gameRegistry.set(game.id, game);
               })
 
             this.setLoadingInitial(false);
@@ -37,7 +41,7 @@ export default class GameStore
     }
 
     selectGame = (id: string) => {
-        this.selectedGame = this.games.find(g => g.id === id);
+        this.selectedGame = this.gameRegistry.get(id);
     }
 
     cancelSelectedGame = () => {
@@ -61,7 +65,7 @@ export default class GameStore
         {
             await agent.Games.create(game);
             runInAction(()=>{
-                this.games.push(game);
+                this.gameRegistry.set(game.id, game);
                 this.selectedGame = game;
                 this.editMode = false;
                 this.loading = false;
@@ -81,7 +85,7 @@ export default class GameStore
         try{
             await agent.Games.update(game);
             runInAction(()=>{
-                this.games = [...this.games.filter(a => a.id !== game.id), game];
+                this.gameRegistry.set(game.id, game);
                 this.selectedGame = game;
                 this.editMode = false;
                 this.loading = false;
@@ -101,7 +105,7 @@ export default class GameStore
         try{
             await agent.Games.delete(id);
             runInAction(()=>{
-                this.games = [...this.games.filter(g=>g.id !== id)];
+                this.gameRegistry.delete(id);
                 if(this.selectedGame !== undefined && this.selectedGame.id === id)
                 {
                     this.cancelSelectedGame();

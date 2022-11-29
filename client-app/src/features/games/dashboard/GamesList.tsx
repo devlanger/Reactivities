@@ -6,7 +6,7 @@ import { useStore } from '../../../app/stores/store';
 export default observer(function GamesList(){
     
     const {gameStore} = useStore();
-    const {deleteGame, games, loading} = gameStore;
+    const {deleteGame, gamesByDate, loading} = gameStore;
 
     const [target, setTarget] = useState('');
 
@@ -18,7 +18,7 @@ export default observer(function GamesList(){
     return (
         <Segment>
             <Item.Group divided>
-                {games.map(game => (
+                {gamesByDate.map(game => (
                     <Item key={game.id}>
                         <Item.Content>
                             <Item.Header as='a'>{game.title}</Item.Header>
