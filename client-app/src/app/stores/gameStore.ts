@@ -24,8 +24,7 @@ export default class GameStore
         try{
             const games = await agent.Games.list();
             games.forEach(game => {
-                game.releaseDate = game.releaseDate.split('T')[0];
-                this.gameRegistry.set(game.id, game);
+                this.setGame(game);
               })
 
             this.setLoadingInitial(false);
@@ -36,25 +35,39 @@ export default class GameStore
         }
     }
 
+    loadGame = async (id: string) => {
+        let game = this.getGame(id);
+        if(game)
+        {
+            this.selectedGame = game;
+        }
+        else
+        {
+            this.loadingInitial = true;
+            try{
+                game = await agent.Games.details(id);
+                this.setGame(game);
+                this.setLoadingInitial(false);
+            }
+            catch(error)
+            {
+                console.log(error);
+                this.setLoadingInitial(false);
+            }
+        }
+    }
+
+    private setGame = (game: IGame) => {
+        game.releaseDate = game.releaseDate.split('T')[0];
+        this.gameRegistry.set(game.id, game);
+    } 
+
+    private getGame = (id: string) => {
+        return this.gameRegistry.get(id);
+    }
+
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
-    }
-
-    selectGame = (id: string) => {
-        this.selectedGame = this.gameRegistry.get(id);
-    }
-
-    cancelSelectedGame = () => {
-        this.selectedGame = undefined;
-    }
-
-    openForm = (id?: string) => {
-        id ? this.selectGame(id) : this.cancelSelectedGame();
-        this.editMode = true;
-    }
-
-    closeForm = () => {
-        this.editMode = false;
     }
 
     createGame = async (game: IGame) => {
@@ -106,10 +119,6 @@ export default class GameStore
             await agent.Games.delete(id);
             runInAction(()=>{
                 this.gameRegistry.delete(id);
-                if(this.selectedGame !== undefined && this.selectedGame.id === id)
-                {
-                    this.cancelSelectedGame();
-                }
                 this.loading = false;
             })
         }

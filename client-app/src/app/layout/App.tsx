@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import GameForm from '../../features/games/form/GameForm';
+import GameDetails from '../../features/games/details/GameDetails';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path='/' element={<HomePage />}/>
               <Route path='/games' element={<GamesDashboard />}/>
+              <Route path='/games/:id' element={<GameDetails />}/>
               <Route path='/createGame' element={<GameForm/> }/>
             </Routes>
           </Container>

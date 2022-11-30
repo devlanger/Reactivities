@@ -7,7 +7,7 @@ import { useStore } from '../../../app/stores/store';
 export default observer(function GameForm() {
     
     const {gameStore} = useStore();
-    const {selectedGame, closeForm, createGame, updateGame, loading} = gameStore;
+    const {selectedGame, createGame, updateGame, loading} = gameStore;
 
     const initialState = selectedGame || {
         id: '',
@@ -40,7 +40,7 @@ export default observer(function GameForm() {
                 <Form.Input placeholder="Platforms" value={game.platforms} name='platforms' onChange={handleInputChange} />
                 <Form.Input placeholder="Category" value={game.category} name='category' onChange={handleInputChange} />
                 <Button loading={loading} floated='right' positive type='submit' content='Submit' />
-                <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
+                <Button floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>
     )

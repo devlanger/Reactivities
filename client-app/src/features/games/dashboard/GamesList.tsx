@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { SyntheticEvent, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
@@ -28,7 +29,7 @@ export default observer(function GamesList(){
                                 {game.platforms}
                             </Item.Description>
                             <Item.Extra>
-                                <Button onClick={() => gameStore.selectGame(game.id)} floated='right' content='View' color='blue'></Button>
+                                <Button as={Link} to={`/games/${game.id}`} floated='right' content='View' color='blue'></Button>
                                 <Button 
                                     name={game.id} 
                                     loading={loading && target === game.id} 
