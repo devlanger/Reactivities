@@ -28,6 +28,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Create.Command{ Game = game }));
         }
 
+        [Authorize(Policy = "IsGameHost")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditGame(Guid id, Game game)
         {
@@ -35,10 +36,18 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command{ Game = game }));
         }
 
+        [Authorize(Policy = "IsGameHost")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(Guid id)
         {
             return HandleResult(await Mediator.Send(new Delete.Command{ Id = id }));
+        }
+
+        
+        [HttpPost("{id}/joingame")]
+        public async Task<IActionResult> JoinGame(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateGame.Command{ Id = id }));
         }
     }
 }

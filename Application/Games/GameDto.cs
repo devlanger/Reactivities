@@ -15,6 +15,7 @@ namespace Application.Games
         public string Category { get; set; }
         public string Platforms { get; set; }
         public string HostUsername { get; set; }
+        public bool IsFinished { get; set; }
         public ICollection<Profile> Participants { get; set; }
     }
 }

@@ -11,9 +11,10 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
+            var users = new List<AppUser>();
             if(!userManager.Users.Any())
             {
-                var users = new List<AppUser>()
+                users = new List<AppUser>()
                 {
                     new AppUser()
                     {
@@ -46,6 +47,14 @@ namespace Persistence
                     Description = "Game 2 months ago",
                     Category = "RPG",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = true
+                        },
+                    }
                 },
                 new Game
                 {
@@ -54,6 +63,24 @@ namespace Persistence
                     Description = "Game 1 month ago",
                     Category = "FPS",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[1],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = false
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[2],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -62,6 +89,19 @@ namespace Persistence
                     Description = "Game 1 month in future",
                     Category = "Strategy",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[2],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -70,6 +110,14 @@ namespace Persistence
                     Description = "Game 2 months in future",
                     Category = "Strategy",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = true
+                        }
+                    }
                 },
                 new Game
                 {
@@ -78,6 +126,19 @@ namespace Persistence
                     Description = "Game 3 months in future",
                     Category = "Strategy",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[1],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[2],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -86,6 +147,19 @@ namespace Persistence
                     Description = "Game 4 months in future",
                     Category = "Horror",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[2],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -94,6 +168,19 @@ namespace Persistence
                     Description = "Game 5 months in future",
                     Category = "Adventure",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[1],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -102,6 +189,19 @@ namespace Persistence
                     Description = "Game 6 months in future",
                     Category = "RPG",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[1],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[0],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -110,6 +210,19 @@ namespace Persistence
                     Description = "Game 2 months ago",
                     Category = "FPS",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[1],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[2],
+                            IsHost = false
+                        }
+                    }
                 },
                 new Game
                 {
@@ -118,6 +231,19 @@ namespace Persistence
                     Description = "Game 8 months in future",
                     Category = "Adventure",
                     Platforms = "PC",
+                    Participants = new List<GameUser>
+                    {
+                        new GameUser
+                        {
+                            AppUser = users[1],
+                            IsHost = true
+                        },
+                        new GameUser
+                        {
+                            AppUser = users[2],
+                            IsHost = false
+                        }
+                    }
                 }
             };
 

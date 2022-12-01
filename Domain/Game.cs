@@ -13,6 +13,7 @@ namespace Domain
         public DateTime ReleaseDate { get; set; }
         public string Category { get; set; }
         public string Platforms { get; set; }
+        public bool IsFinished { get; set; }
         public ICollection<GameUser> Participants { get; set; } = new List<GameUser>();
     }
 }
